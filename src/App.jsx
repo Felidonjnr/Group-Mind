@@ -54,14 +54,24 @@ export default function App() {
 
   // ── Auth State ─────────────────────────────────────────────────────────────
   useEffect(() => {
-  getGoogleRedirectResult().then(result => {
-    if (result?.user) setUser(result.user);
-  });
-  initAuth().then(u => {
-    setUser(u);
-    setAuthLoading(false);
-  });
-}, []);
+    setAuthLoading(true);
+    getGoogleRedirectResult().then(result => {
+      if (result?.user) {
+        setUser(result.user);
+        setAuthLoading(false);
+      } else {
+        initAuth().then(u => {
+          setUser(u);
+          setAuthLoading(false);
+        });
+      }
+    }).catch(() => {
+      initAuth().then(u => {
+        setUser(u);
+        setAuthLoading(false);
+      });
+    });
+  }, []);
 
   // ── Subscribe to groups ────────────────────────────────────────────────────
   useEffect(() => {
@@ -77,11 +87,9 @@ export default function App() {
 
   const handleGoogleSignIn = async () => {
     try {
-      const result = await signInWithGoogle();
-      setUser(result.user);
-      notify("✅ Signed in successfully!");
+      await signInWithGoogle();
     } catch (e) {
-      notify("❌ Sign in failed. Try again.");
+      notify("❌ " + e.message);
     }
   };
 
