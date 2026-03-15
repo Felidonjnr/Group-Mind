@@ -101,7 +101,7 @@ Generate today's perfect WhatsApp message now. Make it alive, timely, and comple
       "anthropic-dangerous-direct-browser-access": "true"
     },
     body: JSON.stringify({
-      model: "model: "claude-haiku-4-5-20251001"",
+      model: "claude-haiku-4-5-20251001",
       max_tokens: 1000,
       system,
       messages: [{ role: "user", content: user }]
