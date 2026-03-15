@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { auth, signInWithGoogle, logOut, initAuth } from "./firebase.js";
+import { auth, signInWithGoogle, getGoogleRedirectResult, logOut, initAuth } from "./firebase.js";
 import {
   subscribeToGroups, createGroup, saveGroup, deleteGroup as dbDeleteGroup,
   saveToHistory, getAllHistory
@@ -54,11 +54,14 @@ export default function App() {
 
   // ── Auth State ─────────────────────────────────────────────────────────────
   useEffect(() => {
-    initAuth().then(u => {
-      setUser(u);
-      setAuthLoading(false);
-    });
-  }, []);
+  getGoogleRedirectResult().then(result => {
+    if (result?.user) setUser(result.user);
+  });
+  initAuth().then(u => {
+    setUser(u);
+    setAuthLoading(false);
+  });
+}, []);
 
   // ── Subscribe to groups ────────────────────────────────────────────────────
   useEffect(() => {
