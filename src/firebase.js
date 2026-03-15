@@ -1,6 +1,13 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, onAuthStateChanged, signOut } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithRedirect,
+  getRedirectResult,
+  onAuthStateChanged,
+  signOut
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAM_q9pw3x18u0MNvKXQTW-G07zA4loXQE",
@@ -17,6 +24,7 @@ export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 
 export const signInWithGoogle = () => signInWithRedirect(auth, googleProvider);
+export const getGoogleRedirectResult = () => getRedirectResult(auth);
 export const logOut = () => signOut(auth);
 
 export const initAuth = () => new Promise((resolve) => {
